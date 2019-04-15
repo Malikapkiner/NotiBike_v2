@@ -1,0 +1,23 @@
+﻿@model WebProje.Models.Race
+@{
+    ViewBag.Title = "Detail";
+}
+
+<ul>
+    <li>
+        @Html.DisplayFor(m => m.RaceName)
+    </li>
+    <li>
+        @Html.DisplayFor(m => m.Date)
+    </li>
+    <li>
+        @Html.DisplayFor(m => m.Time)
+    </li>
+    <li>
+        @Html.DisplayFor(m => m.Category.CategoryName)
+    </li>
+    <li>
+        @Html.ActionLink(Model.User.UserName, "ProfileDetail", "Profile", new { id = Model.User.Id }, null)
+    </li>
+</ul>
+

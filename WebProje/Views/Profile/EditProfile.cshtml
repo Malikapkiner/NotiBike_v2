@@ -1,0 +1,69 @@
+﻿@model WebProje.ViewModels.ProfileCityViewModel
+@{
+    ViewBag.Title = "EditProfile";
+}
+
+<h2 class="baslik">Profili Düzenle</h2>
+
+@using (Html.BeginForm("EditProfile", "Profile", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.UserDetail.Id)
+    @Html.HiddenFor(model => model.UserDetail.UserId)
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="form-group">
+
+        <div class="col-md-10">
+            <label>İsim</label>
+            @Html.TextBoxFor(m => m.UserDetail.Name, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>Soyad</label>
+
+            @Html.TextBoxFor(m => m.UserDetail.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>Doğum Tarihi</label>
+            <p></p>
+            @Html.EditorFor(m => m.UserDetail.DateOfBirth, new { @class = "glyphicon glyphicon-calendar" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+
+            <label>Şehir</label>
+
+            @Html.DropDownListFor(m => m.UserDetail.CityId, Model.Cities, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>Hakkında</label>
+
+            @Html.TextAreaFor(m => m.UserDetail.About, new { @class = "form-control" })
+        </div>
+    </div>
+    <fieldset>
+        <legend>Image</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserDetail.PhotoUrl)
+        </div>
+        <div class="editor-field">
+            <input id="ImagePath" title="Upload a product image"
+                   type="file" name="file" />
+        </div>
+        <p><input type="submit" value="Create" /></p>
+    </fieldset>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Kaydet" />
+        </div>
+    </div>
+
+
+}

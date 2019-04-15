@@ -1,0 +1,68 @@
+﻿@model WebProje.Models.UserDetail
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1 class="baslik">Profil Bilgilerim</h1>
+<div style="margin-top:50px">
+    <dl class="dl-horizontal">
+        <dt>
+            Fotoğraf
+        </dt>
+
+        <dd>
+            <img src="/Image/@Model.PhotoUrl" alt="Profil Foto" width="200" height="300" />
+        </dd>
+        <dt>
+        <dt>
+            Kullanıcı Adı
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.UserName)
+        </dd>
+        <dt>
+            Ad
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            Soyad
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            Doğum Tarihi
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+
+        <dt>
+            Hakkında
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.About)
+        </dd>
+
+
+        <dd>
+            @Html.ActionLink("Düzenle", "EditProfile", "Profile")
+        </dd>
+        <p>
+            @Html.ActionLink("Düzenlediğim yarışlar", "MyRaces", "Profile", routeValues: null, htmlAttributes: new { id = "eventLink" })
+
+        </p>
+        <p>
+            @Html.ActionLink("Yarışlarım", "MyRaceList", "Profile", routeValues: null, htmlAttributes: new { id = "myEventLink" })
+
+        </p>
+    </dl>
+    </div>

@@ -1,0 +1,46 @@
+﻿@model WebProje.ViewModels.RaceCategoryViewModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+@using (Html.BeginForm("Create", "Race", new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>Başlık</label>
+
+            @Html.TextBoxFor(m => m.Race.RaceName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>Kategori</label>
+            @Html.DropDownListFor(m => m.Race.CategoryId, Model.Categories, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>Tarih</label>
+
+            @Html.TextBoxFor(m => m.Race.Date, new { @class = "datepicker" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>Saat</label>
+
+            @Html.EditorFor(m => m.Race.Time, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group " style="margin-left:33%;">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-success" style="width:20em;">Yarış Oluştur</button>
+        </div>
+    </div>
+}
+@section scripts{
+    <script>$('.datepicker').datepicker({ format: 'dd-mm-yyyy' });</script>
+
+}
