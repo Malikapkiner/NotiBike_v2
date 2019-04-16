@@ -18,13 +18,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Uygulama adı", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("NotiRace", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Giriş Sayfası", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Anasayfa", "Index", "Home")</li>
                     <li>@Html.ActionLink("Yarışlar", "Index", "Race")</li>
-                    <li>@Html.ActionLink("İletişim", "Contact", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -34,7 +33,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - ASP.NET Uygulamam</p>
+            <p>&copy; @DateTime.Now.Year - Noti Inc.</p>
         </footer>
     </div>
 

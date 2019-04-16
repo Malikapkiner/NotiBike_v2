@@ -37,11 +37,10 @@
                 </td>
                 <td>
                     @Html.ActionLink("Düzenle", "Update", "Race", new { id = item.Id }, null) |
-                    @Html.BeginForm("Delete", "Race", new { id = item.Id })
-                    {
-                    @*@Html.ActionLink("Sil", "Delete", "Race", new { id = item.Id }, null)*@
-                    <button type="submit" class="btn btn-danger">Sil</button>
-                    }
+
+                    @Html.ActionLink("Sil", "Delete", "Race", new { id = item.Id }, null)
+                    @*<input type="submit" class="btn btn-danger" value="Sil"/>*@
+
                 </td>
 
             </tr>

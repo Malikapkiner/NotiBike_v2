@@ -3,6 +3,8 @@
     ViewBag.Title = "Detail";
 }
 
+@using (Html.BeginForm())
+{
 <ul>
     <li>
         @Html.DisplayFor(m => m.RaceName)
@@ -19,5 +21,9 @@
     <li>
         @Html.ActionLink(Model.User.UserName, "ProfileDetail", "Profile", new { id = Model.User.Id }, null)
     </li>
+    <li>
+        @Html.ActionLink("Git", "Participate", "Race", new { id = Model.Id }, new { @class = "btn btn-success " })
+    </li>
 </ul>
+}
 

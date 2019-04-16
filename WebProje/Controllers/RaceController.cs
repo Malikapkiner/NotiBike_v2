@@ -124,6 +124,45 @@ namespace WebProje.Controllers
             return RedirectToAction("Index");
         }
 
+        /*public ActionResult Participate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Race race = db.Race.Find(id);
+            if (race == null)
+            {
+                return HttpNotFound();
+            }
+            return View(race);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]*/
+        public ActionResult Participate(int id, Participant Participant)
+        {
+            var userId = User.Identity.GetUserId();
+            var controlRace = db.Participants.FirstOrDefault(m => m.RaceId == id && m.UserId == userId);
+            var controlUser = db.Race.FirstOrDefault(r => r.UserId == userId && r.Id == id);
+            var contolRaceDate = db.Race.FirstOrDefault(d => d.Id == id);
+            var dateControl = DateTime.Compare(contolRaceDate.Date, DateTime.Now.AddDays(1));
+            if (controlUser == null && controlRace == null && dateControl >= 0)
+            {
+                Participant.RaceId = id;
+                Participant.UserId = userId;
+                db.Participants.Add(Participant);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
         public ActionResult NotParticipate()
         {
             return View();
