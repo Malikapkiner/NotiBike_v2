@@ -124,23 +124,7 @@ namespace WebProje.Controllers
             return RedirectToAction("Index");
         }
 
-        /*public ActionResult Participate(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Race race = db.Race.Find(id);
-            if (race == null)
-            {
-                return HttpNotFound();
-            }
-            return View(race);
-        }
 
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]*/
         public ActionResult Participate(int id, Participant Participant)
         {
             var userId = User.Identity.GetUserId();
@@ -154,18 +138,31 @@ namespace WebProje.Controllers
                 Participant.UserId = userId;
                 db.Participants.Add(Participant);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Detail",new { id=id});
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Detail",new { id=id});
             }
 
         }
 
-        public ActionResult NotParticipate()
+        public ActionResult NotParticipate(int id,Participant participant)
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+            var model = db.Participants.FirstOrDefault(p => p.UserId == userId && p.RaceId == id);
+            if(model==null)
+            {
+                ViewBag.errorMessage = "Hatalı bir durum oluştu";
+                return View(ViewBag);
+            }
+            else
+            {
+                db.Participants.Remove(model);
+                db.SaveChanges();
+                return RedirectToAction("Details",new { id = id });
+            }
+            
         }
     }
 }

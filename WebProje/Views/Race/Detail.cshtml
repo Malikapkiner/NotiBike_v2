@@ -5,25 +5,63 @@
 
 @using (Html.BeginForm())
 {
-<ul>
-    <li>
-        @Html.DisplayFor(m => m.RaceName)
-    </li>
-    <li>
-        @Html.DisplayFor(m => m.Date)
-    </li>
-    <li>
-        @Html.DisplayFor(m => m.Time)
-    </li>
-    <li>
-        @Html.DisplayFor(m => m.Category.CategoryName)
-    </li>
-    <li>
-        @Html.ActionLink(Model.User.UserName, "ProfileDetail", "Profile", new { id = Model.User.Id }, null)
-    </li>
-    <li>
-        @Html.ActionLink("Git", "Participate", "Race", new { id = Model.Id }, new { @class = "btn btn-success " })
-    </li>
-</ul>
+    <ul>
+        <li>
+            @Html.DisplayFor(m => m.RaceName)
+        </li>
+        <li>
+            @Html.DisplayFor(m => m.Date)
+        </li>
+        <li>
+            @Html.DisplayFor(m => m.Time)
+        </li>
+        <li>
+            @Html.DisplayFor(m => m.Category.CategoryName)
+        </li>
+        <li>
+            @Html.ActionLink(Model.User.UserName, "ProfileDetail", "Profile", new { id = Model.User.Id }, null)
+        </li>
+
+    </ul>
+    <br />
+    <div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (ViewBag.isKatilma)
+            {
+                @Html.ActionLink("Vazgec", "NotParticipate", new { id = Model.Id }, new { @class = "btn btn-success " })
+            }
+            else
+            {
+                @Html.ActionLink("Git", "Participate", new { id = Model.Id }, new { @class = "btn btn-success " })
+
+            }
+
+        }
+    </div>
+    <table class="table " style="max-height:10px;margin-top:10px">
+        @if (Model.Participant.Count() == 0)
+        {
+            <h4>Henüz katılımcı yok.</h4>
+        }
+        else
+        {
+            foreach (var item in Model.Participant)
+            {
+                <tr>
+                    <td>
+                        <a href="" class="star">
+                            <i class="fa fa-bicycle"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <div class="yazi">
+                            @Html.ActionLink(item.User.UserName, "ProfileDetail", "Profile", new { id = item.User.Id }, null)
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
 }
 
