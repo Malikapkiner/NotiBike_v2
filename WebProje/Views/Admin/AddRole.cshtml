@@ -1,0 +1,24 @@
+﻿@model WebProje.ViewModels.UserRoleViewModel
+@{
+    ViewBag.Title = "AddRole";
+}
+
+<h2>AddRole</h2>
+@Html.ValidationSummary()
+@using (Html.BeginForm())
+{
+<table>
+    <tr>
+        <td>
+            <label>Kullanıcı adı</label>
+            @Html.TextBoxFor(m => m.apUser.UserName, new { @class = "form-control" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Kullanıcı adı</label>
+            @Html.DropDownListFor(m => m.apUser.Roles, Model.rol, new { @class = "form-control" })
+        </td>
+    </tr>
+</table>
+}

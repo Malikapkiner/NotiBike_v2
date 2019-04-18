@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace WebProje.Controllers
 {
+    
     public class RaceController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
@@ -160,7 +161,7 @@ namespace WebProje.Controllers
             {
                 db.Participants.Remove(model);
                 db.SaveChanges();
-                return RedirectToAction("Details",new { id = id });
+                return RedirectToAction("Detail",new { id = id });
             }
             
         }
