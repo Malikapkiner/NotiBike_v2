@@ -1,0 +1,9 @@
+kernel 
+android runtime libraries
+xml root child sbling nodes
+activity lifecycle
+
+
+
+java bytecode
+dalvik

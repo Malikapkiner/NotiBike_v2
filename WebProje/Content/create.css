@@ -1,0 +1,23 @@
+﻿
+
+textarea {
+    max-width: 100% !important;
+    max-height: 400px;
+    margin-left: -15px !important;
+    padding-right: inherit
+}
+
+#y_checbox_kategori {
+    margin-left: 0px !important;
+}
+
+.hizala  {
+    margin-top: 15px;
+}
+
+#osman{
+
+    width:500px !important;
+    background-color:green;
+
+}

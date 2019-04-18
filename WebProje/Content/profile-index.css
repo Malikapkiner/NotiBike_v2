@@ -1,0 +1,13 @@
+﻿.link{
+    text-decoration:none !important;
+    color:white;
+}
+.link:hover{
+    color:white;
+}
+h1{
+    margin-bottom:50px;
+}
+h1 *{
+    text-align:center;
+}

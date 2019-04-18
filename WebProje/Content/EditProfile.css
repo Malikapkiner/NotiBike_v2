@@ -1,0 +1,22 @@
+﻿body {
+
+
+}
+
+.datepicker {
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: none;
+    height: 2.5rem;
+    width: 280px;
+    border-width: 1px;
+    border-color: #e8e8e8;
+  
+    border-top-color: #a6e6e6;
+    visibility:hidden;
+}
+.dosya{
+
+max-width:280px
+
+}
