@@ -1,0 +1,87 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+#myInput {
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+#myInput2 {
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+#myTable {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 18px;
+}
+
+    #myTable th {
+        padding: 10px;
+        text-align: left;
+    }
+
+        #myTable td:last-child, #myTable th:last-child {
+            text-align: center !important;
+        }
+
+    , #myTable td {
+        text-align: left;
+        padding: 6px;
+    }
+
+    #myTable tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+        #myTable tr.header, #myTable tr:hover {
+            background-color: #f1f1f1;
+        }
+
+input {
+    margin-left: 15px;
+}
+
+.material-icons:hover {
+    color: green;
+}
+
+
+#myInput {
+    left: 80.6%;
+    height: 40px;
+    border-radius: 11px;
+}
+
+.resize {
+    width: 400px !important;
+}
+
+.material-icons {
+    position: initial;
+}
+
+.sorti:hover {
+    cursor: pointer;
+}
+
+.fa:hover {
+    cursor: pointer;
+}
+
+tr td, tr p {
+    margin-left: 10px !important;
+}

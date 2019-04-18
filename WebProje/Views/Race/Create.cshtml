@@ -3,44 +3,289 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+
+<link href="~/Content/create.css" rel="stylesheet"  type="text/css"/>
+<h2>Etkinlik Oluşturma</h2>
 @using (Html.BeginForm("Create", "Race", new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <div class="form-group">
-        <div class="col-md-10">
-            <label>Başlık</label>
 
-            @Html.TextBoxFor(m => m.Race.RaceName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            <label>Kategori</label>
-            @Html.DropDownListFor(m => m.Race.CategoryId, Model.Categories, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            <label>Tarih</label>
+       
 
-            @Html.TextBoxFor(m => m.Race.Date, new { @class = "datepicker" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            <label>Saat</label>
 
-            @Html.EditorFor(m => m.Race.Time, new { @class = "form-control" })
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <div class="container">
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            #map {
+                z-index: 0;
+                max-width: 700px;
+                height: 100%;
+                border-radius: 10px;
+            }
+        
+            .coordinates {
+                background: rgba(0,0,0,0.5);
+                color: #fff;
+                position: absolute;
+                bottom: 40px;
+                left: 10px;
+                padding: 5px 10px;
+                margin: 0;
+                font-size: 11px;
+                line-height: 18px;
+                border-radius: 3px;
+                display: none;
+            }
+
+            .mapboxgl-canvas {
+                width: 100%;
+            }
+        </style>
+
+        <div class="row">
+            <style>
+                .datepicker{
+
+                    width:100%;
+                    border-radius:4px;
+                    box-shadow:none;
+                    height:2.5rem;
+                    width:280px;
+                    border-width:1px;
+                    border-color:#e8e8e8;
+                    border-bottom-width:px;
+                    border-top-color:a6e6e6;
+
+                }
+
+
+            </style>
+
+            <script>
+
+            </script>
+
+
+
+
+            <div class="col-md-4 hizala">
+                <form>
+                    <div class="form-group">
+                        <label for="yAd">Yarış Adı</label>
+                        <input type="text" class="form-control " id="formGroupExampleInput" placeholder="Yarış adı giriniz">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="ySehir">Şehir / İlçe </label>
+                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Şehir / İlçe giriniz">
+                    </div>
+
+
+                    <div class="form-group">
+                            <label for="date">Tarih</label><br />
+
+                            @Html.TextBoxFor(m => m.Race.Date, new { @class = "datepicker" , id="date" })
+                    </div>
+
+
+
+
+
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Kategori</label>
+                        <select class="form-control" id="y_checbox_kategori">
+                            <option>MTB</option>
+                            <option>Yol</option>
+                            <option>Downhill</option>
+                            <option>Enduro</option>
+
+                        </select>
+                    </div>
+
+
+
+                </form>
+
+
+            </div>
+
+
+            <div class="col-md-8">
+                <div id='map'></div>
+            </div>
+            <pre id='coordinates' class='coordinates'></pre>
+
+            <script>
+                mapboxgl.accessToken = 'pk.eyJ1IjoibXVsa2VyOTUiLCJhIjoiY2pyYXloam04MHVuMzQzbjA4Ymc4aTNtaCJ9.1bje5ytu1LuCj5eqPql4kg';
+                var coordinates = document.getElementById('coordinates');
+                var map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/streets-v11',
+                    center: [33.66828559307589, 38.844113901464056],
+                    zoom: 5
+                });
+
+                var marker = new mapboxgl.Marker({
+                    draggable: true
+                })
+                    .setLngLat([33.66828559307589, 38.844113901464056])
+                    .addTo(map);
+                function onDragEnd() {
+                    var koordinatlar = marker.getLngLat();
+
+                    var lngLat = marker.getLngLat();
+                    coordinates.style.display = 'block';
+                    coordinates.innerHTML = 'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+
+                    document.getElementById("kor1").value = koordinatlar.lng;
+                    document.getElementById("kor2").value = koordinatlar.lat;
+                }
+
+
+                marker.on('dragend', onDragEnd);
+
+
+            </script>
         </div>
-    </div>
-    <div class="form-group " style="margin-left:33%;">
-        <div class="col-md-12">
-            <button type="submit" class="btn btn-success" style="width:20em;">Yarış Oluştur</button>
+
+
+        <div class="col-12 y_text">
+            <div class="form-group ">
+                <label for="y_aciklama">Açıklama  </label>
+                <textarea class="form-control  osman" rows="8" id="y_aciklama"></textarea>
+
+            </div>
         </div>
+
     </div>
+    @*<script>
+
+            map.on('load', function () {
+                // Add a layer showing the places.
+
+                map.addLayer({
+                    "id": "places",
+                    "type": "symbol",
+                    "source": {
+                        "type": "geojson",
+                        "data": {
+                            "type": "FeatureCollection",
+                            "features": [{
+                                "type": "Feature",
+                                "properties": {
+                                    "description": "<strong>Make it Mount Pleasant</strong><p><a href=\"http://www.mtpleasantdc.com/makeitmtpleasant\" target=\"_blank\" title=\"Opens in a new window\">Make it Mount Pleasant</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>",
+                                    "icon": "theatre"
+                                },
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [34.97259066444269, 40.512058480182446]
+                                }
+                            }, {
+                                "type": "Feature",
+                                "properties": {
+                                    "description": "<strong>Truckeroo</strong><p><a href=\"http://www.truckeroodc.com/www/\" target=\"_blank\">Truckeroo</a> brings dozens of food trucks, live music, and games to half and M Street SE (across from Navy Yard Metro Station) today from 11:00 a.m. to 11:00 p.m.</p>",
+                                    "icon": "music"
+                                },
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [-77.007481, 38.876516]
+                                }
+                            }]
+                        }
+                    },
+                    "layout": {
+                        "icon-image": "{icon}-15",
+                        "icon-allow-overlap": true
+                    }
+                });
+
+                // When a click event occurs on a feature in the places layer, open a popup at the
+                // location of the feature, with description HTML from its properties.
+                map.on('click', 'places', function (e) {
+                    var coordinates = e.features[0].geometry.coordinates.slice();
+                    var description = e.features[0].properties.description;
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+
+                    new mapboxgl.Popup()
+                        .setLngLat(coordinates)
+                        .setHTML(description)
+                        .addTo(map);
+                });
+
+                // Change the cursor to a pointer when the mouse is over the places layer.
+                map.on('mouseenter', 'places', function () {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+
+                // Change it back to a pointer when it leaves.
+                map.on('mouseleave', 'places', function () {
+                    map.getCanvas().style.cursor = '';
+                });
+            });
+        </script>*@
+    <input type="text" id="kor1" style="display:none" />
+    <input type="text" id="kor2" style="display:none" />
+
+
+
+    @*<div class="form-group">
+            <div class="col-md-10">
+                <label>Başlık</label>
+
+                @Html.TextBoxFor(m => m.Race.RaceName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Kategori</label>
+                @Html.DropDownListFor(m => m.Race.CategoryId, Model.Categories, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Tarih</label>
+
+                @Html.TextBoxFor(m => m.Race.Date, new { @class = "datepicker" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Saat</label>
+
+                @Html.EditorFor(m => m.Race.Time, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group " style="margin-left:33%;">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-success" style="width:20em;">Yarış Oluştur</button>
+            </div>
+        </div>
+    *@
+
+
+
+
+
+
+
+
 }
 @section scripts{
-    <script>$('.datepicker').datepicker({ format: 'dd-mm-yyyy' });</script>
+    <script>
+    $('.datepicker').datepicker({ format: 'dd-mm-yyyy' });
+
+    </script>
 
 }

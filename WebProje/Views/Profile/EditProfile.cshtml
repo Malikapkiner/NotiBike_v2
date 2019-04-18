@@ -1,6 +1,10 @@
-﻿@model WebProje.ViewModels.ProfileCityViewModel
+﻿<link href="/Content/EditProfile.css" rel="stylesheet" />
+
+
+@model WebProje.ViewModels.ProfileCityViewModel
 @{
     ViewBag.Title = "EditProfile";
+
 }
 
 <h2 class="baslik">Profili Düzenle</h2>
@@ -12,56 +16,88 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <div class="form-group">
+        <div class="row">
 
-        <div class="col-md-10">
-            <label>İsim</label>
-            @Html.TextBoxFor(m => m.UserDetail.Name, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            <label>Soyad</label>
 
-            @Html.TextBoxFor(m => m.UserDetail.LastName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            <label>Doğum Tarihi</label>
-            <p></p>
-            @Html.EditorFor(m => m.UserDetail.DateOfBirth, new { @class = "glyphicon glyphicon-calendar" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-10">
+            <div class="col-6">
+                <fieldset>
+                    <legend>Image</legend>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.UserDetail.PhotoUrl)
+                    </div>
 
-            <label>Şehir</label>
+                    @*<p><input type="submit" value="Create" /></p>*@
+                </fieldset>
 
-            @Html.DropDownListFor(m => m.UserDetail.CityId, Model.Cities, new { @class = "form-control" })
-        </div>
-    </div>
+            </div>
 
-    <div class="form-group">
-        <div class="col-md-10">
-            <label>Hakkında</label>
 
-            @Html.TextAreaFor(m => m.UserDetail.About, new { @class = "form-control" })
+
+
+
+            <div class="col-6">
+                <div class="col-md-10">
+                    <label>İsim</label>
+                    @Html.TextBoxFor(m => m.UserDetail.Name, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label>Soyad</label>
+
+                        @Html.TextBoxFor(m => m.UserDetail.LastName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label>Doğum Tarihi</label>
+                        <p></p>
+
+                        @Html.EditorFor(m => m.UserDetail.DateOfBirth, new { @class = "glyphicon glyphicon-calendar  datepicker" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+
+                        <label>Şehir</label>
+
+                        @Html.DropDownListFor(m => m.UserDetail.CityId, Model.Cities, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label>Hakkında</label>
+
+                        @Html.TextAreaFor(m => m.UserDetail.About, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </div>
-    <fieldset>
-        <legend>Image</legend>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.UserDetail.PhotoUrl)
-        </div>
-        <div class="editor-field">
-            <input id="ImagePath" title="Upload a product image"
-                   type="file" name="file" />
-        </div>
-        <p><input type="submit" value="Create" /></p>
-    </fieldset>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Kaydet" />
+        <div class="col-6" style="display:grid ">
+            <div class="form-group">
+                <div class=" col">
+
+                    <div class="editUpload">
+                        <div class="input-group dosya">
+
+                            <div class="custom-file">
+                                <label class="custom-file-label" for="upload">Fotoğraf Seç</label>
+
+                                <input type="file" class="custom-file-input" id="ImagePath" name="file" aria-describedby="upload" lang="tr">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class=" col">
+                    <input type="submit" class="btn btn-success" value="Kaydet" />
+                </div>
+            </div>
         </div>
     </div>
 
