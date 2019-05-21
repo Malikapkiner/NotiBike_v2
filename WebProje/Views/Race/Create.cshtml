@@ -4,19 +4,30 @@
 }
 
 
-<link href="~/Content/create.css" rel="stylesheet"  type="text/css"/>
-<h2>Etkinlik Oluşturma</h2>
+<link href="~/Content/create.css" rel="stylesheet" type="text/css" />
+<h2>Yarış Oluştur</h2>
 @using (Html.BeginForm("Create", "Race", new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
 
-       
+
 
 
     <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
     <div class="container">
         <style>
+            input {
+                border: 1px solid #ccc;
+                color: #888;
+                margin: 0.5em;
+                vertical-align: middle;
+                outline: 0;
+                padding: 0.5em 1em;
+                border-radius: 4px;
+                width: calc(100% - 3em - 2px);
+                font-family: sans-serif;
+            }
             body {
                 margin: 0;
                 padding: 0;
@@ -28,89 +39,95 @@
                 height: 100%;
                 border-radius: 10px;
             }
-        
-            .coordinates {
-                background: rgba(0,0,0,0.5);
-                color: #fff;
-                position: absolute;
-                bottom: 40px;
-                left: 10px;
-                padding: 5px 10px;
-                margin: 0;
-                font-size: 11px;
-                line-height: 18px;
-                border-radius: 3px;
-                display: none;
-            }
+
+      
 
             .mapboxgl-canvas {
                 width: 100%;
             }
+            .datepicker {
+                border: 1px solid #ccc;
+                color: #888;
+                margin: 0.5em;
+                vertical-align: middle;
+                outline: 0;
+                padding: 0.5em 1em;
+                border-radius: 4px;
+                width: calc(100% - 3em - 2px);
+                font-family: sans-serif;
+            }
+
+            .saat {
+                border: 1px solid #ccc;
+                color: #888;
+                margin: 0.5em;
+                vertical-align: middle;
+                outline: 0;
+                padding: 0.5em 1em;
+                border-radius: 4px;
+                font-family: sans-serif;
+            }
+
+
+
+
+            #y_aciklama {
+                max-width: 1200px !important;
+                width: 100%;
+                height: 200px !important;
+                max-height: 400px;
+                margin-left: -10px !important;
+                border-radius: 5px;
+            }
+            .kontrol {
+                margin-left: 10px !important;
+            }
         </style>
 
         <div class="row">
-            <style>
-                .datepicker{
-
-                    width:100%;
-                    border-radius:4px;
-                    box-shadow:none;
-                    height:2.5rem;
-                    width:280px;
-                    border-width:1px;
-                    border-color:#e8e8e8;
-                    border-bottom-width:px;
-                    border-top-color:a6e6e6;
-
-                }
+           
 
 
-            </style>
-
-            <script>
-
-            </script>
 
 
 
 
             <div class="col-md-4 hizala">
-                <form>
-                    <div class="form-group">
-                        <label for="yAd">Yarış Adı</label>
-                        <input type="text" class="form-control " id="formGroupExampleInput" placeholder="Yarış adı giriniz">
 
-                    </div>
-                    <div class="form-group">
-                        <label for="ySehir">Şehir / İlçe </label>
-                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Şehir / İlçe giriniz">
-                    </div>
+                <div class="form-group">
+                    <label for="yAd">Yarış Adı</label>
+                    @Html.TextBoxFor(m => m.Race.RaceName, new { @class = "form-control" })
 
-
-                    <div class="form-group">
-                            <label for="date">Tarih</label><br />
-
-                            @Html.TextBoxFor(m => m.Race.Date, new { @class = "datepicker" , id="date" })
-                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ySehir">Şehir / İlçe </label>
+                    @Html.TextBoxFor(m => m.Race.Location, new { @class = "form-control" })
+                </div>
 
 
+                <div class="form-group">
+                    <label for="date">Tarih</label><br />
 
+                    @Html.EditorFor(m => m.Race.Date, new { @class = "datepicker ", id = "date" })
+                </div>
+                <div class="form-group">
+                    <label for="date">Saat</label><br />
 
-
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Kategori</label>
-                        <select class="form-control" id="y_checbox_kategori">
-                            <option>MTB</option>
-                            <option>Yol</option>
-                            <option>Downhill</option>
-                            <option>Enduro</option>
-
-                        </select>
-                    </div>
+                    @Html.EditorFor(m => m.Race.Time, new { @class = "form-control " })
+                </div>
 
 
 
-                </form>
+
+
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Kategori</label>
+                    @Html.DropDownListFor(m => m.Race.CategoryId, Model.Categories, new { @class = "form-control kontrol" })
+                </div>
+
+
+
+
 
 
             </div>
@@ -119,7 +136,6 @@
             <div class="col-md-8">
                 <div id='map'></div>
             </div>
-            <pre id='coordinates' class='coordinates'></pre>
 
             <script>
                 mapboxgl.accessToken = 'pk.eyJ1IjoibXVsa2VyOTUiLCJhIjoiY2pyYXloam04MHVuMzQzbjA4Ymc4aTNtaCJ9.1bje5ytu1LuCj5eqPql4kg';
@@ -140,14 +156,10 @@
                     var koordinatlar = marker.getLngLat();
 
                     var lngLat = marker.getLngLat();
-                    coordinates.style.display = 'block';
-                    coordinates.innerHTML = 'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
 
                     document.getElementById("kor1").value = koordinatlar.lng;
                     document.getElementById("kor2").value = koordinatlar.lat;
                 }
-
-
                 marker.on('dragend', onDragEnd);
 
 
@@ -158,7 +170,7 @@
         <div class="col-12 y_text">
             <div class="form-group ">
                 <label for="y_aciklama">Açıklama  </label>
-                <textarea class="form-control  osman" rows="8" id="y_aciklama"></textarea>
+                @Html.TextAreaFor(m => m.Race.Description, new { id = "y_aciklama" })
 
             </div>
         </div>
@@ -235,8 +247,6 @@
                 });
             });
         </script>*@
-    <input type="text" id="kor1" style="display:none" />
-    <input type="text" id="kor2" style="display:none" />
 
 
 
@@ -266,26 +276,23 @@
 
                 @Html.EditorFor(m => m.Race.Time, new { @class = "form-control" })
             </div>
+        </div> *@
+
+
+
+
+
+    <div class="form-group " style="margin-left:33%;">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-info" style="width:20em;">Yarış Oluştur</button>
         </div>
-        <div class="form-group " style="margin-left:33%;">
-            <div class="col-md-12">
-                <button type="submit" class="btn btn-success" style="width:20em;">Yarış Oluştur</button>
-            </div>
-        </div>
-    *@
+    </div>
+
+    //<input type="text" id="kor1" style="display:" />
+    @Html.TextBoxFor(m => m.Race.Coor_X, new { id = "kor1", @class = "form-control", style = "display:none;",required = "required" })
+    //<input type="text" id="kor2" style="display:" />
+    @Html.TextBoxFor(m => m.Race.Coor_Y, new { id = "kor2", @class = "form-control", style = "display:none;", required = "required" })
 
 
-
-
-
-
-
-
-}
-@section scripts{
-    <script>
-    $('.datepicker').datepicker({ format: 'dd-mm-yyyy' });
-
-    </script>
 
 }

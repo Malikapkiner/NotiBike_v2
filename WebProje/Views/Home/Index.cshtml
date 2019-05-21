@@ -1,10 +1,35 @@
-﻿
+﻿@model IEnumerable<WebProje.Models.Race>
 <script src="~/Scripts/manuelscript.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 <link href="~/Content/manuel.css" rel="stylesheet" />
 <style>
+   #myTable a {
+        text-decoration: none;
+        color: forestgreen;
+        font-weight:200;
+    }
+    #myTable a:hover {
+        text-decoration: none;
+        color: forestgreen;
+        text-decoration:underline;
+        transition:step-end
+    }
+    .header {
+        color: #E9E9E9;
+        background-color: #119A97 !important;
+        opacity: 0.9;
+    }
+
+    th 
+    {
+            
+        font-weight: 400 !important;
+
+    }
+    #myTable{
+    }
 </style>
 
 
@@ -17,7 +42,7 @@
 
 </div>
 <table id="myTable">
-    <tr class="header">
+    <tr class="header ">
         <th onclick="sortTable2()" style="width:40%;">Etkinlik Adı<i class="fa fa-fw fa-sort sorti"> </i></th>
         <th onclick="sortTable()" style="width:20%;">Şehir<i class="fa fa-fw fa-sort"> </i></th>
         <th style="width:10%;">Kategori </th>
@@ -27,119 +52,18 @@
 
 
     </tr>
-    <tr>
-        <td>Manisa Bisiklet Festivali</td>
-        <td>Manisa/Merkez</td>
-        <td><p> MTB</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
-    </tr>
-    <tr>
-        <td>Berglunds snabbkop</td>
-        <td>Uşak</td>
-        <td><p> MTB</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.RaceName</td>
+            <td>@item.Location</td>
+            <td><p> @item.Category.CategoryName</p></td>
+            <td><p> @item.Date.Day/@item.Date.Month/@item.Date.Year</p></td>
+            <td><i class="material-icons">@Html.ActionLink("arrow_forward", "Detail", "Race", new { id = item.Id },null)</i></td>
+            @*<td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>*@
+        </tr>
+    }
 
-
-    </tr>
-    <tr>
-        <td>Island Trading</td>
-        <td>Denizli</td>
-        <td><p> MTB</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
-
-
-    </tr>
-    <tr>
-        <td>Koniglich Essen</td>
-        <td>Antalya</td>
-        <td><p> MTB</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
-
-    </tr>
-    <tr>
-        <td>Laughing Bacchus Winecellars</td>
-        <td>Samsun</td>
-        <td><p> MTB</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
-
-    </tr>
-    <tr>
-        <td>Magazzini Alimentari Riuniti</td>
-        <td>Van</td>
-        <td><p> MTB</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
-
-    </tr>
-    <tr>
-        <td>North/South</td>
-        <td>Kahramanmaraş</td>
-        <td><p> MTB</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
-
-    </tr>
-    <tr>
-        <td>Paris specialites</td>
-        <td>Şanlıurfa</td>
-        <td><p> MTB</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
-
-    </tr>
-    <tr>
-        <td>North/South</td>
-        <td>Adıyaman</td>
-        <td><p> MTB</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
-
-    </tr>
-    <tr>
-        <td>Paris specialites</td>
-        <td>Ankara</td>
-        <td><p> MTB</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
-
-    </tr>
-    <tr>
-        <td>North/South</td>
-        <td>Ankara</td>
-        <td><p> MTB</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
-
-    </tr>
-    <tr>
-        <td>Paris specialites</td>
-        <td>France</td>
-        <td><p> MTB</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
-
-    </tr>
-    <tr>
-        <td>North/South</td>
-        <td>UK</td>
-        <td><p> Road</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
-
-    </tr>
-    <tr>
-        <td>Paris specialites</td>
-        <td>France</td>
-        <td><p> MTB</p></td>
-        <td><p> @DateTime.Now.Date.Day/@DateTime.Now.Date.Month/@DateTime.Now.Date.Year</p></td>
-        <td> <a href="#"><i class="material-icons">arrow_forward</i></a></td>
-
-    </tr>
 
 
 </table>

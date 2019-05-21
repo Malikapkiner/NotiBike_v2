@@ -47,13 +47,16 @@ namespace WebProje.Controllers
             userDetail.LastName = UserDetail.LastName;
             userDetail.DateOfBirth = UserDetail.DateOfBirth;
             userDetail.CityId = UserDetail.CityId;
+            userDetail.Location = UserDetail.Location;
+            userDetail.About = UserDetail.About;
             if (file != null)
             {
                 file.SaveAs(HttpContext.Server.MapPath("~/Image/")
                                                       + file.FileName);
                 UserDetail.PhotoUrl = file.FileName;
+                userDetail.PhotoUrl = UserDetail.PhotoUrl;
+                
             }
-            userDetail.PhotoUrl = UserDetail.PhotoUrl;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

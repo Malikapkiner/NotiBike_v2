@@ -3,19 +3,54 @@
     ViewBag.Title = "MyRaceList";
 }
 
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
+<style>
+
+    #myTable {
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid #ddd;
+        font-size: 18px;
+    }
+
+        #myTable th {
+            padding: 10px;
+            text-align: left;
+        }
+
+            #myTable td:last-child, #myTable th:last-child {
+                text-align: center !important;
+            }
+
+        #myTable td {
+            text-align: left;
+            padding: 6px;
+        }
+
+        #myTable tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+            #myTable tr.header, #myTable tr:hover {
+                background-color: #f1f1f1;
+            }
+</style>
+
 <h2 class="baslik">Gideceğim Etkinlikler</h2>
 
-<table class="table">
-    <tr>
+<table id="myTable" class="table">
+    <tr class="header">
         <th>
-            Yarış
+            Etkinlikler
         </th>
 
         <th>
             İşlemler
         </th>
     </tr>
-    @if (Model.Count()==0)
+    @if (Model.Count() == 0)
     {
         <tr>
             <td colspan="2">Görüntülenecek yarış yok</td>
@@ -26,8 +61,8 @@
         foreach (var item in Model)
         {
             <tr>
-                <td>@Html.ActionLink(item.Race.RaceName, "Details", "Race", new { id = item.RaceId }, null)</td>
-                <td>@Html.ActionLink("Vazgeç", "NotParticipate", "Race", new { id = item.Race.Id }, null)</td>
+                <td> @Html.ActionLink(item.Race.RaceName, "Detail", "Race", new { id = item.RaceId }, null)</td>
+                <td><i>@Html.ActionLink("Vazgeç", "NotParticipate", "Race", new { id = item.Race.Id, @class = "fas fa-times" }, null)</i></td>
 
             </tr>
         }

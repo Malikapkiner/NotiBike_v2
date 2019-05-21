@@ -3,48 +3,64 @@
     ViewBag.Title = "MyRaces";
 }
 
+<link href="~/Content/manuel.css" rel="stylesheet" />
+<style>
+    .duzenle a{
+        text-decoration:none;
+        color:#5cb2b5 !important;
+    }
+    .iptal a{
+        color:orangered !important;
+        text-decoration:none;
+    }
+    .material-icons .ml-4{
+
+    }
+    .header {
+        color: #E9E9E9;
+        background-color: #119A97 !important;
+        opacity: 0.8;
+    }
+
+    th {
+        font-weight: 400 !important;
+    }
+</style>
 <h2>Etkinliklerim</h2>
 
 @Html.AntiForgeryToken()
 
-<table class="table">
-    <tr>
-        <th>
-            Etkinlikler
-        </th>
-        <th>
-            Başlangıç yer
-        </th>
-        <th>
-            Bitiş yer
-        </th>
+
+
+
+
+<table id="myTable">
+    <tr class="header">
+        <th onclick="sortTable2()" style="width:40%;">Etkinlik Adı<i class="fa fa-fw fa-sort sorti"> </i></th>
+        <th onclick="sortTable()" style="width:20%;">Şehir<i class="fa fa-fw fa-sort"> </i></th>
+        <th style="width:10%;">Kategori </th>
+        <th style="width:10%;"> Tarih </th>
+        <th style="width:10%;">Düzenle</th>
+        <th style="width10%">Vazgeç</th>
     </tr>
-    @if (Model.Count() == 0)
+    @foreach (var item in Model)
     {
         <tr>
-            <td colspan="3">Görüntülenecek Yarış yok</td>
+            <td>@item.RaceName</td>
+            <td>@item.Location</td>
+            <td><p> @item.Category.CategoryName</p></td>
+            <td><p> @item.Date.ToShortDateString()</p></td>
+            <td>
+                <i class="material-icons ml-4 duzenle" > @Html.ActionLink("build", "Update", "Race", new { id = item.Id ,@class=""}, null)</i>
+            </td>
+            <td> 
+                <i  class="material-icons iptal "> @Html.ActionLink("cancel", "Delete", "Race", new { id = item.Id, @class="" }, null)</i>
+            </td>
         </tr>
     }
-    else
-    {
 
 
-        foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.ActionLink(item.RaceName, "Detail", "Race", new { id = item.Id }, null)
-                </td>
-                <td>
-                    @Html.ActionLink("Düzenle", "Update", "Race", new { id = item.Id }, null) |
 
-                    @Html.ActionLink("Sil", "Delete", "Race", new { id = item.Id }, null)
-                    @*<input type="submit" class="btn btn-danger" value="Sil"/>*@
 
-                </td>
-
-            </tr>
-        }
-    }
 </table>
 

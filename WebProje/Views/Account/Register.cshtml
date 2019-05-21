@@ -1,53 +1,86 @@
-﻿@model WebProje.Models.RegisterViewModel
+﻿
+@model WebProje.Models.RegisterViewModel
 @{
     ViewBag.Title = "Kaydol";
 }
 
-<link href="~/Content/register.css" rel="stylesheet" />
 @*<h2>@ViewBag.Title.</h2>*@
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
 
-<div class="form">
-    <div class=baslik>
-        <h4>Yeni hesap oluşturun</h4>
-        <hr />
-    </div>
 
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+
+
+    <style>
+
+        body {
+        }
+
+        .kayitButton {
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .form {
+            margin-top: 60px;
+
+            
+        }
+        h4 , .form .form-group{
+            margin-left:30%;
+
+            }
+
+
+        h4 {
+         /*margin-left:8%;*/
+         color:green;
+         margin-top:2px;
+         text-indent:40px;
+        }
+
+        .baslik {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+    </style>
+
+
+    <div class="form">
+        <div class=baslik>
+            <h4>Yeni hesap oluşturun</h4>
+        </div>
+
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "E-Posta" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control  ", placeholder = "Kullanıcı Adı" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Şifre" })
+            </div>
+        </div>
+        <div class="form-group">
+            @*@Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })*@
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Tekrar Şifre" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-info kayitButton" value="Kaydol"> Kaydol </button>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control  " })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-<label class="col-md-12"> Parolanızı onaylayınız</label>
-        @*@Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })*@
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-success kayitButton" value="Kaydol"> Kaydol </button>
-        </div>
-    </div>
-</div>
 }
 
 @section Scripts {

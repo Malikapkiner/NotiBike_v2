@@ -1,0 +1,22 @@
+﻿@model WebProje.ViewModels.UserRoleViewModel
+@{
+    ViewBag.Title = "ClearRole";
+}
+
+<h2>ClearRole</h2>
+
+@Html.ValidationSummary()
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>
+                <label>Kullanıcı adı</label>
+                @Html.TextBoxFor(m => m.apUser.UserName, new { @class = "form-control" })
+            </td>
+        </tr>
+
+    </table>
+    <input type="submit" value="Premium iptal et" />
+
+}

@@ -7,13 +7,20 @@ using System.Web.Mvc;
 using WebProje.Models;
 using WebProje.ViewModels;
 using Microsoft.AspNet.Identity;
-
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace WebProje.Controllers
 {
     public class RaceController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
+        private RoleManager<IdentityRole> roleManager;
+        private UserManager<ApplicationUser> userManager;
+        public RaceController()
+        {
+            roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+        }
         // GET: Race
         public ActionResult Index()
         {
@@ -51,43 +58,62 @@ namespace WebProje.Controllers
         public ActionResult Create()
         {
             var model = new RaceCategoryViewModel();
-            var categories = db.RaceCategories;
-            model.Categories = categories.Select(a => new SelectListItem { Text = a.CategoryName, Value = a.Id.ToString() });
+            var usrId = User.Identity.GetUserId();
+            if (userManager.IsInRole(usrId, "Admin") || userManager.IsInRole(usrId, "Premium"))
+            {
 
-            return View(model);
+                var categories = db.RaceCategories;
+                model.Categories = categories.Select(a => new SelectListItem { Text = a.CategoryName, Value = a.Id.ToString() });
+
+                return View(model);
+            }
+            else
+            {
+                ModelState.AddModelError("", "Yetkiniz yok");
+                return RedirectToAction("Index","Home",null);
+            }
         }
         [HttpPost]
         public ActionResult Create(RaceCategoryViewModel viewModel)
         {
-            var userId = User.Identity.GetUserId();
-            viewModel.Race.UserId = userId;
-            db.Race.Add(viewModel.Race);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            var usrId = User.Identity.GetUserId();
+            if (userManager.IsInRole(usrId, "Admin") || userManager.IsInRole(usrId, "Premium"))
+            {
+                var userId = User.Identity.GetUserId();
+                viewModel.Race.UserId = userId;
+                db.Race.Add(viewModel.Race);
+                db.SaveChanges();
+            }
+            return RedirectToAction("MyRaces", "Profile", null);
         }
 
         [Authorize]
         public ActionResult Update(int? id)
         {
-            if (id == null)
+            var usrId = User.Identity.GetUserId();
+            if (userManager.IsInRole(usrId, "Admin") || userManager.IsInRole(usrId, "Premium"))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                var model = new RaceDateViewModel();
+                var categories = db.RaceCategories;
+                model.Categories = categories.Select(a => new SelectListItem { Text = a.CategoryName, Value = a.Id.ToString() });
+                Race r = db.Race.Find(id);
+                model.Race = r;
+                model.Date = r.Date.ToShortDateString();
+                //model.EndDate = evnt.FinishDate.ToShortDateString(); ÖNEMLİ FİNİSHDATE İÇİN AÇ
+                if (r == null)
+                {
+                    return HttpNotFound();
+                }
+                if (User.Identity.GetUserId() == r.UserId)
+                    return View(model);
+
+
             }
-            var model = new RaceDateViewModel();
-            var categories = db.RaceCategories;
-            model.Categories = categories.Select(a => new SelectListItem { Text = a.CategoryName, Value = a.Id.ToString() });
-            Race r = db.Race.Find(id);
-            model.Race = r;
-            model.Date = r.Date.ToShortDateString();
-            //model.EndDate = evnt.FinishDate.ToShortDateString(); ÖNEMLİ FİNİSHDATE İÇİN AÇ
-            if (r == null)
-            {
-                return HttpNotFound();
-            }
-            if (User.Identity.GetUserId() == r.UserId)
-                return View(model);
-            else
-                return RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
         [Authorize]
@@ -95,33 +121,72 @@ namespace WebProje.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Update(int? id, RaceDateViewModel model)
         {
-
-            var r = db.Race.Find(id);
-            r.RaceName = model.Race.RaceName;
-            r.CategoryId = model.Race.CategoryId;
-            r.Date = DateTime.Parse(model.Date);
             var user = User.Identity.GetUserId();
-            db.SaveChanges();
+            if (userManager.IsInRole(user, "Admin") || userManager.IsInRole(user, "Premium"))
+            {
+                var r = db.Race.Find(id);
+                r.RaceName = model.Race.RaceName;
+                r.CategoryId = model.Race.CategoryId;
+                //r.Date = DateTime.Parse(model.Date);
+                r.Date = model.Race.Date;
+                r.Time = model.Race.Time;
+                r.Location = model.Race.Location;
+                r.Description = model.Race.Description;
+                r.Coor_X = model.Race.Coor_X;
+                r.Coor_Y = model.Race.Coor_Y;
 
-            return RedirectToAction("Index");
-            
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("MyRaces", "Profile", null);
+
         }
         [Authorize]
         public ActionResult Delete(int? id)
         {
-            var yaris = db.Race.Find(id);
+            //var user = User.Identity.GetUserId();
+            //if (userManager.IsInRole(user, "Admin") || userManager.IsInRole(user, "Premium"))
+            //{
+            //    var yaris = db.Race.Find(id);
+            //    if (id == null)
+            //    {
+            //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //    }
+            //    Race r = new Race();
+
+            //    if (yaris != null && user == r.UserId)
+            //    {
+            //        var result = db.Race.Remove(yaris);
+            //        db.SaveChanges();
+
+            //    }
+            //}
+            //return RedirectToAction("MyRaces","Profile",null);
+
+       
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Race r = new Race();
-            var user = User.Identity.GetUserId();
-            if (yaris!=null && user==r.UserId)
+            Race evnt = db.Race.Find(id);
+            if (evnt == null)
             {
-                var result = db.Race.Remove(yaris);
-                db.SaveChanges();
+                return HttpNotFound();
             }
-            return RedirectToAction("Index");
+            if (User.Identity.GetUserId() == evnt.UserId)
+                return View(evnt);
+            else
+                return RedirectToAction("Myraces","Profile",null);
+
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Race evnt = db.Race.Find(id);
+            db.Race.Remove(evnt);
+            db.SaveChanges();
+            return RedirectToAction("MyRaces","Profile",null);
         }
 
 
@@ -138,20 +203,20 @@ namespace WebProje.Controllers
                 Participant.UserId = userId;
                 db.Participants.Add(Participant);
                 db.SaveChanges();
-                return RedirectToAction("Detail",new { id=id});
+                return RedirectToAction("Detail", new { id = id });
             }
             else
             {
-                return RedirectToAction("Detail",new { id=id});
+                return RedirectToAction("Detail", new { id = id });
             }
 
         }
 
-        public ActionResult NotParticipate(int id,Participant participant)
+        public ActionResult NotParticipate(int id, Participant participant)
         {
             var userId = User.Identity.GetUserId();
             var model = db.Participants.FirstOrDefault(p => p.UserId == userId && p.RaceId == id);
-            if(model==null)
+            if (model == null)
             {
                 ViewBag.errorMessage = "Hatalı bir durum oluştu";
                 return View(ViewBag);
@@ -160,9 +225,9 @@ namespace WebProje.Controllers
             {
                 db.Participants.Remove(model);
                 db.SaveChanges();
-                return RedirectToAction("Details",new { id = id });
+                return RedirectToAction("Detail", new { id = id });
             }
-            
+
         }
     }
 }

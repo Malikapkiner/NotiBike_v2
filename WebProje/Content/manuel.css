@@ -38,7 +38,7 @@
             text-align: center !important;
         }
 
-    , #myTable td {
+     #myTable td {
         text-align: left;
         padding: 6px;
     }
@@ -84,4 +84,7 @@ input {
 
 tr td, tr p {
     margin-left: 10px !important;
+}
+a{
+    text-decoration:none;
 }

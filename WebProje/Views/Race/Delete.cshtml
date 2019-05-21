@@ -1,0 +1,27 @@
+﻿@model WebProje.Models.Race
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<h3>Silmek İstediğinize Emin misiniz ?</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            Silinecek Olan Yarış
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RaceName)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> |
+        </div>
+    }
+</div>

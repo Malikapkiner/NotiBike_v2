@@ -1,4 +1,4 @@
-﻿body {
+﻿/*body {
 }
 
 .kayitButton{
@@ -22,7 +22,18 @@ h4{
 
 }
 .baslik{
-    background-color:blue !important; 
+    background-color:cadetblue !important; 
  
 
+}*/
+/*@media (min-width: 768px) {
+    .container {
+        max-width: 100%;
+    }
 }
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 100%;
+    }
+}*/

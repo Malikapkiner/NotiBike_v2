@@ -11,15 +11,20 @@ namespace WebProje.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string RaceName { get; set; }
         public int CategoryId { get; set; }
-        //[DataType(DataType.Date),DisplayFormat(DataFormatString ="{0:dd/MM/yy}",ApplyFormatInEditMode =true)]
+        [DataType(DataType.Date),DisplayFormat(DataFormatString ="{0:dd/MM/yy}",ApplyFormatInEditMode =true)]
         public DateTime Date { get; set; }
+
         [DataType(DataType.Time), DisplayFormat(DataFormatString = "{0:hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime Time { get; set; }
         [ForeignKey("User")]
         public string UserId { get; set; }
-        public string Coordinates { get; set; }
+        [Required]
+        public string Coor_X { get; set; }
+        [Required]
+        public string Coor_Y { get; set; }
         public string Location { get; set; }
         public string Description { get; set; }
 

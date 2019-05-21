@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using WebProje.Models;
@@ -18,9 +19,13 @@ namespace WebProje.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private RoleManager<IdentityRole> roleManager;
+        private UserManager<ApplicationUser> userManager;
 
         public AccountController()
         {
+            roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -160,6 +165,8 @@ namespace WebProje.Controllers
                     var userId = user.Id;
                     var userDetail = new UserDetail();
                     userDetail.UserId = userId;
+                    userManager.AddToRole(userId, "User");
+                    userDetail.PhotoUrl = "Default.png";
                     db.UserDetails.Add(userDetail);
                     db.SaveChanges();
 

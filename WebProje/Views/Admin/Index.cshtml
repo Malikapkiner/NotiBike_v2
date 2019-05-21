@@ -1,0 +1,41 @@
+﻿@model IEnumerable<WebProje.ViewModels.GroupedUserViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="box-title">
+            <b>Kullanıcılar</b>
+        </h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="panel-body">
+        <table class="table table-hover table-bordered table-condensed" id="UsersWithRoles">
+            <thead>
+                <tr>
+                    <td><b>Username</b></td>
+                    <td><b>Email</b></td>
+                    <td><b>Roles</b></td>
+                </tr>
+            </thead>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                    <td>@user.Role</td>
+
+                </tr>
+            }
+        </table>
+        @Html.ActionLink("Rol Ekle", "create", "Admin", null, new { @class = "nav-link" })
+        @Html.ActionLink("Premium Al", "AddRole", "Admin", null, new { @class = "nav-link" })
+        @Html.ActionLink("Premium sil", "ClearRole", "Admin", null, new { @class = "nav-link" })
+    </div>
+
+</div>
+
+

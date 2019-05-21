@@ -2,8 +2,68 @@
 @{
     ViewBag.Title = "ProfileDetail";
 }
+<style>
+   
+        .row{
+            margin-top:15%;
+        }
+        .container .img {
+            text-align: center;
+        }
 
-<h2>ProfileDetail</h2>
+        .container .details {
+            border-left: 3px solid #ded4da;
+        }
+
+            .container .details p {
+                font-size: 17px;
+            }
+</style>
+<div class="row">
+    <div class="col-md-6 img">
+        @if(Model.PhotoUrl != null) { 
+        <img src="/Image/@Model.PhotoUrl" alt="Profil Foto" width="60%" height="300px"  />
+        }
+    </div>
+    <div class="col-md-4 details ">
+        <blockquote>
+            <h3>
+                @Html.DisplayFor(model => model.User.UserName)
+            </h3>
+       <h6>Kişisel Bilgiler</h6>
+             </blockquote>
+
+        <p>
+            <b>Ad:</b>            
+            @Html.DisplayFor(model => model.Name)
+        </p>
+        <p>
+            <b>Soyad:</b>             
+            @Html.DisplayFor(model => model.LastName)
+        </p>
+
+        <p>
+            <b>Doğum T:</b>            
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </p>
+
+        <p>
+            <b>Şehir:</b>
+             @Html.DisplayFor(model => model.Location)
+
+        </p>
+ 
+        <p>
+            <b>Hakkında:</b>            
+            @Html.DisplayFor(model => model.About)
+        </p>
+
+
+
+
+    </div>
+</div>
+@*<h2>ProfileDetail</h2>
 <div>
 
     <dl class="dl-horizontal">
@@ -36,7 +96,7 @@
         <dd>
             @Html.DisplayFor(model => model.DateOfBirth)
         </dd>
-       
+
         <dt>
             Hakkında
         </dt>
@@ -45,4 +105,4 @@
             @Html.DisplayFor(model => model.About)
         </dd>
     </dl>
-</div>
+</div>*@

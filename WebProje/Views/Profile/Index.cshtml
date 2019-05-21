@@ -7,8 +7,7 @@
 <div class="row">
     <div class="col-md-6">
 
-        <img src="/Image/@Model.PhotoUrl" alt="Profil Foto" width="200" height="300" />
-
+        <img src="/Image/@Model.PhotoUrl" alt="Profil Foto" width="60%" height="300" style="margin-bottom:50px;" />
 
     </div>
 
@@ -17,9 +16,9 @@
 
     <div class="col-md-6" style="margin-top:50px">
         <dl class="dl-horizontal">
-          
 
-           
+
+
 
             <dt>
                 Kullanıcı Adı
@@ -27,7 +26,6 @@
 
             <dd>
                 @Html.DisplayFor(model => model.User.UserName)
-
             </dd>
             <dt>
                 Ad
@@ -53,25 +51,30 @@
             </dd>
 
             <dt>
-                Hakkında
+                Şehir
             </dt>
 
             <dd>
-                
-                @Html.DisplayFor(model => model.About)
+
+                @Html.DisplayFor(model => model.Location)
             </dd>
 
+            <dt>
+                Hakkında
+            </dt>
+            <dd>
 
-         
+                @Html.DisplayFor(model => model.About)
+            </dd>
         </dl>
     </div>
     <div class="col-5 ">
 
-        <button class="btn btn-success">  @Html.ActionLink("Düzenle", "EditProfile", "Profile", htmlAttributes: new { @class = "link" })</button>
+        <button class="btn btn-info">  @Html.ActionLink("Düzenle", "EditProfile", "Profile", htmlAttributes: new { @class = "link" })</button>
 
-        <button class="btn btn-success"> @Html.ActionLink("Düzenlediğim yarışlar", "MyRaces", "Profile", routeValues: null, htmlAttributes: new { id = "eventLink", @class = "link" })</button>
+        <button class="btn btn-info"> @Html.ActionLink("Düzenlediğim yarışlar", "MyRaces", "Profile", routeValues: null, htmlAttributes: new { id = "eventLink", @class = "link" })</button>
 
-        <button class="btn btn-success"> @Html.ActionLink("Yarışlarım", "MyRaceList", "Profile", routeValues: null, htmlAttributes: new { id = "myEventLink", @class = "link" })</button>
+        <button class="btn btn-info"> @Html.ActionLink("Yarışlarım", "MyRaceList", "Profile", routeValues: null, htmlAttributes: new { id = "myEventLink", @class = "link" })</button>
 
 
 

@@ -3,65 +3,230 @@
     ViewBag.Title = "Detail";
 }
 
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+
 @using (Html.BeginForm())
 {
-    <ul>
-        <li>
-            @Html.DisplayFor(m => m.RaceName)
-        </li>
-        <li>
-            @Html.DisplayFor(m => m.Date)
-        </li>
-        <li>
-            @Html.DisplayFor(m => m.Time)
-        </li>
-        <li>
-            @Html.DisplayFor(m => m.Category.CategoryName)
-        </li>
-        <li>
-            @Html.ActionLink(Model.User.UserName, "ProfileDetail", "Profile", new { id = Model.User.Id }, null)
-        </li>
+    <style>
+        .btn-success{
 
-    </ul>
-    <br />
-    <div>
-        @if (User.Identity.IsAuthenticated)
-        {
-            if (ViewBag.isKatilma)
+        }
+        .fa-user-check {
+            color: #23a2d1;
+            font-size: large
+        }
+        td a {
+            color: #029502 !important;
+            font-weight:400;
+            font-size:1.1rem;
+        }
+        .row {
+            margin-bottom: 50px;
+        }
+        b {
+            color: cadetblue;
+            font-size:larger;
+        }
+   
+
+       .row a {
+            text-decoration:none !important;
+            text-decoration:underline !important;
+        }
+
+        .yazi {
+            text-decoration: none;
+            text-decoration-color: none;
+        }
+
+        #map {
+            position: absolute;
+            width: 100%;
+            max-width: 1100px;
+            height: 60%;
+            border-radius: 10px;
+            margin-bottom: 60px;
+        }
+
+        .katilimci {
+            z-index: 0;
+            margin-top: 40%;
+        }
+
+        ul {
+            list-style: none;
+            margin-left: 0px;
+            list-style-position: inside;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2>
+              
+            </h2>
+        </div>
+        <div class="col-md-3">
+            
+            
+            <ul>
+                
+                    <b>Yarış Adı:</b> <br />
+                    @Html.DisplayFor(m => m.RaceName)
+               
+                <li>
+                    <b>Tarih:</b> <br />
+                    @Html.DisplayFor(m => m.Date)
+                </li>
+                <li>
+                    <b>Saat:</b> <br />
+                    @Html.DisplayFor(m => m.Time)
+                </li>
+                <li>
+                    <b>Kategori:</b> <br />
+                    @Html.DisplayFor(m => m.Category.CategoryName)
+                </li>
+                <li>
+                    <b>Oluşturan:</b> <br />
+                    @Html.ActionLink(Model.User.UserName, "ProfileDetail", "Profile", new { id = Model.User.Id }, null)
+                </li>
+            </ul>
+
+        </div>
+        <div class="col-md-9">
+
+            <b>Açıklama:</b>
+            @Html.DisplayFor(m => m.Description)
+
+        </div>
+
+
+    </div><div>
+              <b><h3 class="text-center"> Harita</h3></b>
+        <div id='map'></div>
+
+        <br />
+
+        <div class="katilimci ">
+            @if (User.Identity.IsAuthenticated)
             {
-                @Html.ActionLink("Vazgec", "NotParticipate", new { id = Model.Id }, new { @class = "btn btn-success " })
+                if (ViewBag.isKatilma)
+                {
+                    @Html.ActionLink("Kayıt İptal", "NotParticipate", new { id = Model.Id }, new { @class = "btn btn-info mt-4  " })
+                }
+                else
+                {
+                    @Html.ActionLink("Yarışa Kaydol", "Participate", new { id = Model.Id }, new { @class = "btn btn-info mt-4 " })
+
+                }
+
+            }
+        </div>
+        <table class="table " style="max-height:10px;margin-top:10px">
+            @if (Model.Participant.Count() == 0)
+            {
+                <h4>Henüz katılımcı yok.</h4>
             }
             else
             {
-                @Html.ActionLink("Git", "Participate", new { id = Model.Id }, new { @class = "btn btn-success " })
+                <h4 class="offset-5"> Katılımcılar</h4>
+                foreach (var item in Model.Participant)
+                {
+                    <tr>
 
+                        <td>
+                            <i class="fas fa-user-check"></i>
+                            @Html.ActionLink(item.User.UserName, "ProfileDetail", "Profile", new { id = item.User.Id, @class = "yazi" }, null)
+                        </td>
+                    </tr>
+                }
             }
+        </table>
 
-        }
+
+
+
+
     </div>
-    <table class="table " style="max-height:10px;margin-top:10px">
-        @if (Model.Participant.Count() == 0)
-        {
-            <h4>Henüz katılımcı yok.</h4>
-        }
-        else
-        {
-            foreach (var item in Model.Participant)
-            {
-                <tr>
-                    <td>
-                        <a href="" class="star">
-                            <i class="fa fa-bicycle"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <div class="yazi">
-                            @Html.ActionLink(item.User.UserName, "ProfileDetail", "Profile", new { id = item.User.Id }, null)
-                        </div>
-                    </td>
-                </tr>
-            }
-        }
-    </table>
+
+
+
+
+
+
+
+
+    <div class="">
+
+
+
+
+
+        <div class="row">
+
+
+
+
+
+            <script>
+                mapboxgl.accessToken = 'pk.eyJ1IjoibXVsa2VyOTUiLCJhIjoiY2pyYXloam04MHVuMzQzbjA4Ymc4aTNtaCJ9.1bje5ytu1LuCj5eqPql4kg';
+                var coordinates = document.getElementById('coordinates');
+                var map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/streets-v11',
+                    center: [@Model.Coor_X, @Model.Coor_Y],
+                    zoom: 13,
+                    minZoom: 5,
+                    interactive: true
+
+
+                });
+
+                var marker = new mapboxgl.Marker({
+                    draggable: false
+                })
+                    .setLngLat([@Model.Coor_X, @Model.Coor_Y])
+                    .addTo(map);
+                function onDragEnd() {
+                    var koordinatlar = marker.getLngLat();
+
+                    var lngLat = marker.getLngLat();
+                    //coordinates.style.display = 'block';
+                    //coordinates.innerHTML = 'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+
+                    document.getElementById("kor1").value = koordinatlar.lng;
+                    document.getElementById("kor2").value = koordinatlar.lat;
+                }
+
+
+                marker.on('dragend', onDragEnd);
+
+
+            </script>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
 }
 

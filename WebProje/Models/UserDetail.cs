@@ -24,8 +24,10 @@ namespace WebProje.Models
 
         public string About { get; set; }
         public string PhotoUrl { get; set; }
+        public string Location { get; set; }
 
         public virtual ApplicationUser User { get; set; }
         public virtual City City { get; set; }
+        
     }
 }
